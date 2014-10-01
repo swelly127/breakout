@@ -1,6 +1,6 @@
 # controller.py
 # Jessica Shu js2634
-# December 2 2012
+# December 2nd 2012
 
 # Extensions: Score, Power Ups, and Increasing Ball Speed as game goes on
 # Increasing ball speed causes some glitches when update cannot keep up
@@ -30,9 +30,9 @@ PADDLE_HEIGHT = 11
 PADDLE_OFFSET = 30
 
 # Horizontal separation between bricks
-BRICK_SEP_H = 5
+BRICK_SEP_H = 0
 # Vertical separation between bricks
-BRICK_SEP_V = 4
+BRICK_SEP_V = 0
 # Height of a brick
 BRICK_HEIGHT = 8
 # Offset of the top brick row from the top

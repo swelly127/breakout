@@ -1,7 +1,3 @@
-# colormodel.py
-# Walker M. White (wmw2)
-# September 2, 2012
-# DO NOT MODIFY THIS FILE
 """Classes for three different color models.
 
 The classes are RGB, CMYK, HSV.  The constants in this module are all
