@@ -177,8 +177,8 @@ class Breakout(GameController):
         saying that the user should press to play a game."""
         self._power.set_volume(0.5)
         self._score = 0
-        self.view.add(GRectangle(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
-                                 fillcolor=colormodel.BLACK))
+        self.view.add(GImage(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
+                                 source="ground.jpg"))
         self._message=GLabel(text='Click to Start',linecolor=colormodel.WHITE,
                         width=400,height=620,font_size=20,font_name='ComicSans.ttf',
                         bold=True,halign='center',valign='middle')
