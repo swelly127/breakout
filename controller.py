@@ -30,11 +30,10 @@ PADDLE_HEIGHT = 11
 PADDLE_OFFSET = 30
 
 # Horizontal separation between bricks
-BRICK_SEP_H = 0
+BRICK_SEP_H = 3
 # Vertical separation between bricks
-BRICK_SEP_V = 0
-# Height of a brick
-BRICK_HEIGHT = 8
+BRICK_SEP_V = 3
+
 # Offset of the top brick row from the top
 BRICK_Y_OFFSET = 70
 
@@ -44,6 +43,8 @@ BRICKS_IN_ROW = 5
 BRICK_ROWS = 10
 # Width of a brick
 BRICK_WIDTH = GAME_WIDTH / BRICKS_IN_ROW - BRICK_SEP_H
+# Height of a brick
+BRICK_HEIGHT = 15
 
 # Diameter of the ball in pixels
 BALL_DIAMETER = 18
@@ -65,6 +66,9 @@ STATE_COMPLETE = 3
 BRICK_COLORS = [colormodel.RED, colormodel.RED, colormodel.ORANGE, colormodel.ORANGE,
                 colormodel.YELLOW, colormodel.YELLOW, colormodel.GREEN,
                 colormodel.GREEN, colormodel.CYAN, colormodel.CYAN]
+
+LOSE_MSG = "Well, I'll build my own breakout game!  With blackjack!  And hookers!  In fact, FORGET the breakout game."
+WIN_MSG = ""
 
 
 # CLASSES
@@ -177,8 +181,8 @@ class Breakout(GameController):
         saying that the user should press to play a game."""
         self._power.set_volume(0.5)
         self._score = 0
-        self.view.add(GImage(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
-                                 source="ground.jpg"))
+        self.view.add(GRectangle(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
+                                 fillcolor=colormodel.BLACK))
         self._message=GLabel(text='Click to Start',linecolor=colormodel.WHITE,
                         width=400,height=620,font_size=20,font_name='ComicSans.ttf',
                         bold=True,halign='center',valign='middle')
@@ -242,15 +246,15 @@ class Breakout(GameController):
             self.view.add(self._powerUps)
         if Breakout._bricks == []:
             self._state=STATE_COMPLETE
-            self._message = GLabel(text='not bad ;)',
+            self._completeImage=GImage(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
+                                 source="winner.png")
+            self._message = GLabel(text=WIN_MSG,
                                   linecolor = colormodel.WHITE,
                                   width=400,height=620,font_size=20,
                                   font_name='ComicSans.ttf',
                                   bold=True,halign='center',valign='middle')
-            self.view.add(self._message)
-            self._completeImage=GImage(source='winner.png',width=100,height=210,
-                                 pos=(50,170))
             self.view.add(self._completeImage)
+            self.view.add(self._message)
 
     def updateBall(self):
         """Helper function for Update. Updates ball position and checks for losses
@@ -271,13 +275,13 @@ class Breakout(GameController):
             self._turnsLeft -= 1
             if self._turnsLeft == 0:
                 self._state=STATE_COMPLETE
-                self._message = GLabel(text='much dissappoint :(',
+                self._message = GLabel(text=LOSE_MSG,
                             linecolor=colormodel.WHITE, width=400,height=620,
                             font_size=20,font_name='Arial.ttf',
                             bold=True,halign='center',valign='middle')
                 self.view.add(self._message)
-                self._completeImage=GImage(source='loser.png',width=100,
-                                     height=210,pos=(50,170))
+                self._completeImage=GImage(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
+                                 source="loser.png")
                 self.view.add(self._completeImage)
             else:
                 if self._powerUps!=None:
@@ -379,17 +383,17 @@ class Breakout(GameController):
             self._state=STATE_INACTIVE
             self._score=0
             self.view.add(GRectangle(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
-                                    fillcolor=colormodel.BLACK))
+                                 fillcolor=colormodel.BLACK))
             self._message=GLabel(text='Click to Play Again',linecolor=colormodel.WHITE,
                         width=400,height=620,font_size=20,font_name='ComicSans.ttf',
                         bold=True,halign='center',valign='middle')
-            self.view.add(self._message)
             Breakout._paddle=GRectangle(fillcolor=colormodel.BLUE,
                             size=(PADDLE_WIDTH,PADDLE_HEIGHT),x=0,y=PADDLE_OFFSET)
-            self.view.add(Breakout._paddle)
-            self._ball=Ball()
-            self.view.add(self._ball)
             self.set_bricks()
+            self._ball=Ball()
+            self.view.add(self._message)
+            self.view.add(Breakout._paddle)
+            self.view.add(self._ball)
             Breakout._state=STATE_PAUSED
             self._state=STATE_PAUSED
 
@@ -443,6 +447,8 @@ class Breakout(GameController):
                     x=BRICK_SEP_H/2.0+c*(float(BRICK_WIDTH)+float(BRICK_SEP_H)),
                     linecolor=BRICK_COLORS[q%10], fillcolor=BRICK_COLORS[q%10],
                     height=BRICK_HEIGHT, width=BRICK_WIDTH))
+        self.view.add(GImage(size=(GAME_WIDTH,GAME_HEIGHT),x=0,y=0,
+            source="futurama" + str(random.randrange(10)) + ".png"))
         for p in self._bricks:
             self.view.add(p)
 
@@ -502,7 +508,7 @@ class Ball(GEllipse):
                 (BRICK_SEP_V+BRICK_HEIGHT)*(BRICK_ROWS))-35,
                 width=BALL_DIAMETER,height=BALL_DIAMETER,
                 fillcolor=colormodel.RGB(random.randrange(255),random.randrange(255),
-                random.randrange(255)), linecolor=colormodel.BLACK)
+                random.randrange(255)), linecolor=colormodel.WHITE)
         self._vx = random.uniform(1.0,5.0)
         self._vy = -5.0
 
