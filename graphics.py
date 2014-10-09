@@ -1,12 +1,4 @@
-# graphics.py
-# Walker M. White (wmw2)
-# November 8, 2012
-"""Generic graphics classes for Breakout.
 
-Use these graphics classes as the building blocks for your game.  DO NOT
-MODIFY THE CODE IN THIS FILE.  Instead, you should just instantiate these
-classes (or subclass them) to make your game.  See the online documentation
-for more guidance; it includes information not displayed in this module."""
 from kivy.properties import ListProperty, StringProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
